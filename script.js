@@ -1,5 +1,7 @@
 const main = document.querySelector("main");
-const btn = document.querySelector("button");
+
+const startBtn = document.querySelector("#startBtn");
+const nextBtn = document.querySelector("#nextBtn");
 
 const timer = document.querySelector("#timer");
 const scoree = document.querySelector("#score");
@@ -13,28 +15,29 @@ box.classList.add("box");
 
 let points = 0;
 let time = 0;
+
 let interval;
 let gameTimeout;
-
-let currentPlayer = 1;
 
 let player1Score = 0;
 let player2Score = 0;
 
+let currentPlayer = 1;
+
 
 // Random color
-const color = () => {
+function color() {
 
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
     let b = Math.floor(Math.random() * 256);
 
     return `rgb(${r}, ${g}, ${b})`;
-};
+}
 
 
-// Random box position
-const random = () => {
+// Random box
+function random() {
 
     box.style.backgroundColor = color();
 
@@ -43,38 +46,41 @@ const random = () => {
     let mainH = main.clientHeight - box.offsetHeight;
     let mainW = main.clientWidth - box.offsetWidth;
 
-    const randomY = Math.random() * mainH;
-    const randomX = Math.random() * mainW;
+    let randomY = Math.random() * mainH;
+    let randomX = Math.random() * mainW;
 
     box.style.top = `${randomY}px`;
     box.style.left = `${randomX}px`;
-};
+}
 
 
-// Start game
-btn.addEventListener("click", () => {
 
-    clearInterval(interval);
-    clearTimeout(gameTimeout);
+// Player 1 start
+
+
+startBtn.addEventListener("click", () => {
 
     overlay.style.display = "none";
-
-    currentPlayer = 1;
-
-    player1Score = 0;
-    player2Score = 0;
 
     points = 0;
     time = 0;
 
-    playerText.textContent = currentPlayer;
-    timer.textContent = time;
-    scoree.textContent = points;
+    player1Score = 0;
+    player2Score = 0;
+
+    playerText.textContent = "1";
+    timer.textContent = "0";
+    scoree.textContent = "0";
+
+    startBtn.textContent = "Player 1 Playing";
 
     random();
 
 
-    // Player 1 timer
+    clearInterval(interval);
+    clearTimeout(gameTimeout);
+
+
     interval = setInterval(() => {
 
         time++;
@@ -86,7 +92,6 @@ btn.addEventListener("click", () => {
     }, 1000);
 
 
-    // After 30 seconds
     gameTimeout = setTimeout(() => {
 
         clearInterval(interval);
@@ -95,87 +100,114 @@ btn.addEventListener("click", () => {
 
         box.remove();
 
-        // Player 2 start
-        currentPlayer = 2;
+        result.textContent =
+            `Player 1 Finished! Score: ${player1Score}`;
 
-        playerText.textContent = currentPlayer;
+        nextBtn.textContent = "Player 2 Start";
 
-        points = 0;
-        time = 0;
+        
 
-        timer.textContent = 0;
-        scoree.textContent = 0;
-
-        random();
-
-
-        // Player 2 timer
-        interval = setInterval(() => {
-
-            time++;
-
-            timer.textContent = time;
-
-            random();
-
-        }, 1000);
-
-
-        // Player 2 game over
-        gameTimeout = setTimeout(() => {
-
-            clearInterval(interval);
-
-            player2Score = points;
-
-            box.remove();
-
-            // Find winner
-
-            if (player1Score > player2Score) {
-
-                result.textContent =
-                    `🏆 Player 1 Wins! ${player1Score} - ${player2Score}`;
-
-            }
-            else if (player2Score > player1Score) {
-
-                result.textContent =
-                    `🏆 Player 2 Wins! ${player2Score} - ${player1Score}`;
-
-            }
-            else {
-
-                result.textContent =
-                    `🤝 Draw! ${player1Score} - ${player2Score}`;
-
-            }
-
-
-            overlay.style.display = "flex";
-
-
-            // Reset after 5 seconds
-            setTimeout(() => {
-
-                overlay.style.display = "none";
-
-                time = 0;
-                points = 0;
-
-                timer.textContent = 0;
-                scoree.textContent = 0;
-
-            }, 5000);
-
-        }, 30000);
+        overlay.style.display = "flex";
 
     }, 30000);
 
 });
 
 
-// Box click
+
+// Player 2 start
+
+
+nextBtn.addEventListener("click", () => {
+    startBtn.textContent = "player 2 is playing"
+
+  
+    if (nextBtn.textContent === "Play Again") {
+
+    overlay.style.display = "none";
+
+    points = 0;
+    time = 0;
+
+    player1Score = 0;
+    player2Score = 0;
+
+    playerText.textContent = "1";
+    timer.textContent = "0";
+    scoree.textContent = "0";
+
+    startBtn.click();
+
+    return;
+}
+    overlay.style.display = "none";
+
+    points = 0;
+    time = 0;
+
+    playerText.textContent = "2";
+    timer.textContent = "0";
+    scoree.textContent = "0";
+
+    random();
+
+    clearInterval(interval);
+    clearTimeout(gameTimeout);
+
+
+    interval = setInterval(() => {
+
+        time++;
+
+        timer.textContent = time;
+
+        random();
+
+    }, 1000);
+
+
+    gameTimeout = setTimeout(() => {
+
+        clearInterval(interval);
+
+        player2Score = points;
+
+        box.remove();
+
+
+        // winner
+        if (player1Score > player2Score) {
+
+            result.textContent =
+                `🏆 Player 1 Wins! ${player1Score} - ${player2Score}`;
+
+        }
+        else if (player2Score > player1Score) {
+
+            result.textContent =
+                `🏆 Player 2 Wins! ${player2Score} - ${player1Score}`;
+
+        }
+        else {
+
+            result.textContent =
+                `🤝 Draw! ${player1Score} - ${player2Score}`;
+
+        }
+
+
+        overlay.style.display = "flex";
+
+        nextBtn.textContent = "Play Again";
+
+    }, 30000);
+
+});
+
+
+// box click
+
+
 box.addEventListener("click", () => {
 
     points++;
@@ -183,4 +215,3 @@ box.addEventListener("click", () => {
     scoree.textContent = points;
 
 });
-

@@ -72,13 +72,30 @@ button{
     display: none;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    gap: 30px;
 
     text-align: center;
     z-index: 100;
 }
+#overlay button {
+    /* position: relative; */
+    /* z-index: 101; */
+
+    background-color: white;
+    color: black;
+
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+    font-size: 16px;
+}
 
 #overlay h1 {
-    font-size: clamp(35px, 10vw, 80px);
+    font-size: clamp(30px, 7vw, 70px);
     text-transform: uppercase;
 }
 @media (max-width: 600px) {
