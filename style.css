@@ -45,15 +45,18 @@ button{
     cursor: pointer;
 }
 
-#top{
+#top {
     color: whitesmoke;
     background-color: rgba(255, 255, 255, 0.267);
-    padding: 10px 15 px;
+
+    padding: 10px 15px;
     border-radius: 10px;
+
     display: flex;
     justify-content: space-between;
-    gap: 30px;
-    width: min(90vw, 350px);
+    gap: 20px;
+
+    width: min(90vw, 450px);
 }
 #overlay {
     position: fixed;
@@ -88,7 +91,8 @@ button{
 
     #top {
         width: 90vw;
-        gap: 15px;
+        gap: 10px;
+        font-size: 13px;
     }
 
     main {
