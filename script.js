@@ -73,7 +73,7 @@ btn.addEventListener('click', () => {
         overlay.style.display = "none"
        },5000)
      
-    },10000)
+    },30000)
 
  
 })
